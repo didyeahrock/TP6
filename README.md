@@ -6,6 +6,8 @@ We propose ton install a GLPI server using a MariaDB database under a Ubuntu 20.
 
 The choice to keep an autosigned certificate and not to use tools such as letsencrypt or certbot can be justified because we do not use any public domain name.
 
+### users and passwords
+
 ### installation-prerequis.py
 This firts script goal is to install all required the packets includong MariaDB
 Tha script ends up with the secure-mysql script that will ask for interactive choices to the user such as password or remote login (security purpose)
