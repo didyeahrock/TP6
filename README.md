@@ -5,7 +5,7 @@ We propose ton install a GLPI server using a MariaDB database under a Ubuntu 20.
 The choice to keep an autosigned certificate and not to use tools such as letsencrypt or certbot can be justified because we do not use any public domain name.
 
 ### users and passwords
-GLPI Database : user : glpi / password : password
+GLPI Database : user : glpi / password : glpi
 MariaDB : root / P@ssw0rd
 
 ### installation-prerequis.py
