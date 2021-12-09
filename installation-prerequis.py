@@ -35,7 +35,7 @@ LOG_FILE = "./installation.log"
 GLPI_VER = "9.5.6"
 
 # Log File Configuration 
-
+# Try lance une commande et si elle fail il fait le except (tout errorlevel autre que 0)
 try:
     logging.basicConfig(filename=LOG_FILE, format="%(asctime)s : %(levelname)s:%(message)s", 
         level=logging.DEBUG)
