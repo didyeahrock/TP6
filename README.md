@@ -9,8 +9,10 @@ GLPI Database : user : glpi / password : password
 MariaDB : root / P@ssw0rd
 
 ### installation-prerequis.py
-This firts script goal is to install all required the packets includong MariaDB
-Tha script ends up with the secure-mysql script that will ask for interactive choices to the user such as password or remote login (security purpose)
+This first script goal is to install all required the packets includong MariaDB
+That script ends up with the secure-mysql script that will ask for interactive choices to the user such as password or remote login (security purpose)
+You must identify the last GLPI stable version. You can have it by clicking on this link https://github.com/glpi-project/glpi/releases
+Then edit the line 35 of the file and replace if necessary the $string of the variable GLPI_VER = "9.5.6" to match the new version._
 
 ### configuration-https.py
 This second script will prepare http for Apache2 server
