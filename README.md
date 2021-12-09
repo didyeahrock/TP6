@@ -1,12 +1,12 @@
 # TP6
-The TP6 project part of the "Administrateur Infrastructures et Cloud" of Openclassrooms.
+The TP6 project is part of the "Administrateur Infrastructures et Cloud" cursus of Openclassrooms.
 The goal is to write a Python script code that will automate admin tasks.
-
-We propose ton install a GLPI server using a MariaDB database under a Ubuntu 20.04 server and ton configure HTTPS 443 with a autosigned certificate.
-
+We propose ton install a GLPI server using a MariaDB database under a Ubuntu 20.04 server and to configure HTTPS 443 with a autosigned certificate.
 The choice to keep an autosigned certificate and not to use tools such as letsencrypt or certbot can be justified because we do not use any public domain name.
 
 ### users and passwords
+GLPI Database : user : glpi / password : password
+MariaDB : root / P@ssw0rd
 
 ### installation-prerequis.py
 This firts script goal is to install all required the packets includong MariaDB
