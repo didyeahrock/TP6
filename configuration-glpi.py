@@ -45,28 +45,28 @@ try:
             level=logging.DEBUG)
 
 except Exception as e:
-    print("Echec de la création du fichier de log, l'installation n'a pas aboutie")
+    print("Creation of the log file has failed, installation has failed")
     raise e
 
 # reading variables
 
 try:
-    logging.info("Lecture des informations utilisateur")
+    logging.info("Reading user informations")
 
-    server_name = input("Saisir le nom de domain complet (avec www. si besoin)\n")
+    server_name = input("Please enter domain name (with www. if necessary)\n")
     # Do loop until domain name is valid
     while not validators.domain(server_name):
-        server_name = input("Veuillez saisir un nom de domain correct\n")
+        server_name = input("Please enter a valid domain name\n")
 
-    logging.info("Nom de domaine saisi : {}".format(server_name))
-    db_name = input("Saisir le nom de la base de données [{}]:\n".format(db_name))                          or "glpi"
-    db_user = input("Saisir l'utilisateur de la base de données [{}]:\n".format(db_user))                   or "glpi"
-    db_password = input("Saisir le mot de passe de la base de données [{}]:\n".format(db_password))         or "password"
-    db_host = input("Saisir l'adresse de la base de données [{}]:\n".format(db_host))                          or "localhost"
-    server_admin = input("Saisir l'adresse mail de l'administrateur [{}]:\n".format(server_admin))          or "mail@mail"
+    logging.info("Domain name : {}".format(server_name))
+    db_name = input("Enter database name [{}]:\n".format(db_name))                          or "glpi"
+    db_user = input("Enter database username [{}]:\n".format(db_user))                   or "glpi"
+    db_password = input("Enter database password [{}]:\n".format(db_password))         or "password"
+    db_host = input("Enter database address [{}]:\n".format(db_host))                          or "localhost"
+    server_admin = input("Enter database admin user email [{}]:\n".format(server_admin))          or "mail@mail"
 
 except Exception as e:
-    logging.error("Echec de la lecture des informations utilisateur")
+    logging.error("Gathering user information has failed")
     logging.error(e)
     raise e
 
@@ -103,10 +103,10 @@ try:
     os.system("a2dissite 000-default")
     os.system("a2ensite {}".format(server_name))
     os.system("systemctl reload apache2")
-    logging.info("La configuration apache a été rechargée avec succès")
+    logging.info("Apache2 cConfiguration has been successfully reloaded")
 
 except Exception as e:
-    logging.error("Echec du chargement de la nouvelle configuration Apache")
+    logging.error("Loading Apache2 new configuration has failed")
     logging.error(e)
     raise e
 
@@ -147,7 +147,7 @@ def creation_base(dico_base):
             os.system(glpi_console)
 
     except Exception as e:
-        logging.error("Echec de la création de la base de données SQL dans MariaDB")
+        logging.error("Creating SQL database has failed")
         raise e
 
 # creation of the SQL database
@@ -162,23 +162,23 @@ try:
     curseur_db.execute("SHOW DATABASES")
 
     if existe_base(db_name, MARIADB_ID):
-        print("La base {} existe déjà, souhaitez-vous continuer quand même et écraser la base existante ? [O/Y]/n".format(db_name))
+        print("Database {} already exists, do you want to continue and replace database with the new one ? [O/Y]/n".format(db_name))
         choix_erreur_db = input("") or "O"
         print(choix_erreur_db) 
         if choix_erreur_db == "O" or choix_erreur_db == "Y":
             client_db.close()
-            print("OK on est des fous on supprime tout !")
-            logging.info("La base '{}' existe déjà, elle va être réinitialisée".format(db_name))
+            print("Database will be removed")
+            logging.info("Databse '{}' already exists, it will be replaced".format(db_name))
             creation_base(sql_identifiants)
-            logging.info("La base '{}' a été réinitialisée".format(db_name))
+            logging.info("Database '{}' has been reset".format(db_name))
         else:
-            print("Echec de création de la base, la base existe déjà.")
-            logging.error("Echec de la création de la base SQL, la base existe déjà.")
+            print("Creation of the database has failed, database already exists")
+            logging.error("Creation of the SQL database has failed, database already exists")
             exit(os.EX_SOFTWARE)
     else:
         creation_base(sql_identifiants)
 except Exception as e:
-    logging.error("Echec de la création de la base de donnée SQL dans MariaDB")
+    logging.error("Creation of the database has failed")
     logging.error(e)
     raise e
 
@@ -186,13 +186,13 @@ except Exception as e:
 try:
     creation_cert = "openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/{}-selfsigned.key -out /etc/ssl/certs/{}-selfsigned.crt".format(server_name, server_name)
     creation_dh_group = "openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048"
-    print("Création des certificats auto-signés")
+    print("Creation of the autosigned certificates")
     os.system(creation_cert)
 #    os.system(creation_dh_group)
-    logging.info("Certificats auto-signés créés avec succès")
+    logging.info("Autosigned certificates auto-signés successfully created")
 
 except Exception as e:
-    logging.error("Echec de la création des certificats")
+    logging.error("Creation of the certificates has failed")
     logging.error(e)
     raise e
 # Apache configuration for HTTPS
@@ -228,7 +228,7 @@ try:
 
     with open("/etc/apache2/sites-available/{}.conf".format(server_name), "w") as apache_https_file:
         apache_https_file.writelines(apache_https_conf)
-        logging.info("Le fichier /etc/apache2/sites-available/{}.conf a été modifié avec succès".format(server_name))
+        logging.info("File /etc/apache2/sites-available/{}.conf has been successfully created".format(server_name))
     os.system("chown -R www-data /usr/share/glpi")
     os.system("a2enmod ssl")
     os.system("a2enmod headers")
@@ -238,6 +238,6 @@ try:
 #    os.system("php /usr/share/glpi/bin/console db:install --db-host=127.0.0.1 --db-name=glpi --db-user=glpi --db-password=glpi --force --no-interaction --reconfigure")
 
 except Exception as e:
-    logging.error("Echec de la configuration HTTPS d'Apache")
+    logging.error("HTTPS Apache configuration has failed")
     logging.error(e)
     raise e
