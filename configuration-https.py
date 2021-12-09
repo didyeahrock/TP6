@@ -1,66 +1,52 @@
 #!/usr/bin/python3
 #-*- coding: utf8 -*-
 """
-
     configuration-https.py
-    Script effectuant la configuration du https et la génération des certificats
-
-    Auteur  :   Pierre LEMAIRE
+    This script will configure HTTP and create certificates
+    Athor   :   Didier Lemaitre
     Version :   0.1
-    Date    :   2021-05-17
-
-    Testé avec Python 3.7 sous Debian 10 (Buster) stable
-
-
+    Date    :   09-12-2021
+    Tested with Python 3.7 under Ubuntu 20.04
 """
-
-#Importation des modules nécessaires
-
+# Importation of the requiered modules
 import logging
 import os
 import subprocess
-
 """
-    Tâches à effectuer : 
-        - Configurer apache pour le ssl
-        - Configurer le groupe Diffie Helman
+    Tasks to do : 
+        - Configure apache for ssl
+        - Configure the group Diffie Helman
 """
-
-#Définition des constantes
+# Définition of constants
 
 LOG_FILE = "./configuration-https.log"
 
-#Configuration du fichier de log
-
+# Configuration of the log file
 try:
     logging.basicConfig(filename=LOG_FILE, format="%(asctime)s : %(levelname)s:%(message)s",
             level=logging.DEBUG)
-    logging.info("Début de la configuration https pour apache")
+    logging.info("Starting https configuration for apache")
 except Exception as e:
     print("")
     raise e
-
-#Génération du groupe Diffie Hellmann afin d'améliorer la sécurité des certificats si le fichier n'existe pas
+# Générate the group Diffie Hellmann to improve the certificate security des certificats if the file does not exist 
 try:
-    logging.info("Génération du fichier de groupe Diffie Hellmann /etc/ssl/certs/dhparam.pem")
-    print("Génération du fichier de groupe Diffie Hellmann /etc/ssl/certs/dhparam.pem...")
+    logging.info("Generate the file of the group Diffie Hellmann /etc/ssl/certs/dhparam.pem")
+    print("Generate the file of the group Diffie Hellmann /etc/ssl/certs/dhparam.pem...")
 
     if not os.path.isfile("/etc/ssl/certs/dhparam.pem"):
         creation_dh_group = "openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048"
         os.system(creation_dh_group)
-        logging.info("Le fichier a été créé avec succès")
-        print("Le fichier a été créé avec succès !\n")
-
+        logging.info("File has been created successfully")
+        print("File has been created successfully\n")
     else:
-        logging.info("Le fichier existe déjà, il n'a pas été modifié")
-        print("Le fichier existe déjà, il n'a pas été modifié.\n")
-
+        logging.info("The file already exists, it has not been mofified")
+        print("The file already exists, it has not been modified\n")
 except Exception as e:
-    logging.error("Echec de la création du fichier de groupe Diffie Hellmann")
+    logging.error("Creation of the Diffie Hellmann group has failed")
     logging.error(e)
     raise e
-
-#Génération du fichier /etc/apache2/conf-available/ssl-params.conf
+# Generate the file /etc/apache2/conf-available/ssl-params.conf
 try:
     ssl_params = [
             "SSLCipherSuite EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH\n",
@@ -76,22 +62,19 @@ try:
             "SSLOpenSSLConfCmd DHParameters \"/etc/ssl/certs/dhparam.pem\"\n"
             ]
 
-    logging.info("Création du fichier /etc/apache2/conf-available/ssl-params.conf")
-    print("Création du fichier /etc/apache2/conf-available/ssl-params.conf...")
+    logging.info("Creation of the file /etc/apache2/conf-available/ssl-params.conf")
+    print("Creation of tje file /etc/apache2/conf-available/ssl-params.conf...")
     
     if not os.path.isfile("/etc/apache2/conf-available/ssl-params.conf"):
         with open("/etc/apache2/conf-available/ssl-params.conf", "w") as ssl_params_file:
             ssl_params_file.writelines(ssl_params)
-            logging.info("Le fichier a été créé avec succès")
-            print("Le fichier a été créé avec succès !\n")
+            logging.info("The file has been successfully created")
+            print("The file has been successfully created\n")
     else:
-        logging.info("Le fichier ssl-params.conf existe déjà, il n'a pas été modifié")
-        print("Le fichier ssl-params.conf existe déjà, il n'a pas été modifié.\n")
+        logging.info("The file ssl-params.conf already exists, it has not been modified")
+        print("The file ssl-params.conf already exists, it has not been modified.\n")
  
 except Exception as e:
-    logging.error("Echec de la création du fichier apache /etc/apache2/conf-available/ssl-params.conf")
+    logging.error("Creation of the file /etc/apache2/conf-available/ssl-params.conf has failed")
     logging.error(e)
     raise e
-
-
-
