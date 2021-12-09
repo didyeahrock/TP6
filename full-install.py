@@ -7,17 +7,14 @@
     - configuration-https.py
     - configuration-glpi.py
 """
-
 # Import of the required modules
-
 import subprocess
-
 try:
-  #Lancement du 1er script : installation-prerequis.py
+  #Launch first script 
   subprocess.run(["python3","installation-prerequis.py"])
-  #Lancement du 2e script : configuration-https.py
+  #Launch second 
   subprocess.run(["python3","configuration-https.py"])
-  #Lancement du 3e script : configuration-wordpress.py
+  #Launch third script
   subprocess.run(["python3","configuration-glpi.py"])
   
 except Exception as e:
