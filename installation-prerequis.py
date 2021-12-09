@@ -34,7 +34,6 @@ import os
 LOG_FILE = "./installation.log"
 GLPI_VER = "9.5.6"
 
-
 # Log File Configuration 
 
 try:
