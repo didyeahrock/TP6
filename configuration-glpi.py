@@ -33,7 +33,6 @@ db_user = "glpi"
 db_password = "password"
 db_host = "localhost"
 GLPI_ROOT_DIR = "/usr/share/glpi/"
-# WP_CONTENT_DIR = "/var/lib/glpi/glpi-content/"
 server_name = "glpi.local"
 server_admin = "mail@mail"
 
@@ -235,7 +234,6 @@ try:
     os.system("a2enconf ssl-params")
     os.system("apache2ctl configtest")
     os.system("systemctl restart apache2.service")
-#    os.system("php /usr/share/glpi/bin/console db:install --db-host=127.0.0.1 --db-name=glpi --db-user=glpi --db-password=glpi --force --no-interaction --reconfigure")
 
 except Exception as e:
     logging.error("HTTPS Apache configuration has failed")
