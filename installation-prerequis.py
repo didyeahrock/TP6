@@ -35,7 +35,7 @@ LOG_FILE = "./installation.log"
 GLPI_VER = "9.5.6"
 
 # Log File Configuration 
-# Try lance une commande et si elle fail il fait le except (tout errorlevel autre que 0)
+
 try:
     logging.basicConfig(filename=LOG_FILE, format="%(asctime)s : %(levelname)s:%(message)s", 
         level=logging.DEBUG)
@@ -62,7 +62,6 @@ try:
     os.system(wget)
     tar_glpi = "tar -zxvf glpi-{}.tgz".format(GLPI_VER)
     os.system(tar_glpi)
-#    os.system("tar -zxvf glpi-9.5.6.tgz ")
 # Moving /tmp/glpi to the root folder of apache2 
     os.system("mv glpi /usr/share/")
 # make www-data owner of GLPI folder
