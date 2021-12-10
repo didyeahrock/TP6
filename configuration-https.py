@@ -29,7 +29,7 @@ try:
 except Exception as e:
     print("")
     raise e
-# Générate the group Diffie Hellmann to improve the certificate security des certificats if the file does not exist 
+# Generate the group Diffie Hellmann to improve the certificate security des certificats if the file does not exist 
 try:
     logging.info("Generate the file of the group Diffie Hellmann /etc/ssl/certs/dhparam.pem")
     print("Generate the file of the group Diffie Hellmann /etc/ssl/certs/dhparam.pem...")
