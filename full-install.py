@@ -10,11 +10,11 @@
 # Import of the required modules
 import subprocess
 try:
-  #Launch first script 
+  # Launch first script 
   subprocess.run(["python3","installation-prerequis.py"])
-  #Launch second 
+  # Launch second 
   subprocess.run(["python3","configuration-https.py"])
-  #Launch third script
+  # Launch third script
   subprocess.run(["python3","configuration-glpi.py"])
   
 except Exception as e:
